@@ -2,13 +2,13 @@ package reminder;
 
 import java.sql.*;
 
-public class ReminderBDD {
+public class ReminderBDD implements ReminderParameters {
 
     private static ReminderBDD thisBDD = null;
     private static Statement stmt = null;
     private static Connection c = null;
 
-    private String bddPath = "./src/reminder/reminder.db";
+    private String bddPath = resourcesPath + "reminder.db";
 
     /**
      * Patron Singleton

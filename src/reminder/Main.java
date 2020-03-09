@@ -25,7 +25,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
         window = primaryStage;
         window.setResizable(false);
         window.setMaximized(false);
@@ -37,7 +36,7 @@ public class Main extends Application {
         window.show();
     }
 
-    public static void exit() {
-        System.exit(0);
+    public static void exit(int out) {
+        System.exit(out);
     }
 }

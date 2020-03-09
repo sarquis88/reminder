@@ -12,6 +12,10 @@ public class SimpleInputDialog implements ReminderParameters {
     private TextField textField;
     private Dialog<ButtonType> thisDialog;
 
+    /**
+     * Constructor de clase
+     * @param title titulo del dialogo
+     */
     public SimpleInputDialog(String title) {
         thisDialog = new Dialog<>();
         thisDialog.setTitle(title);
@@ -51,10 +55,6 @@ public class SimpleInputDialog implements ReminderParameters {
      * Muestra de ventana
      */
     public void show() {
-
-        //Stage stage = (Stage) thisDialog.getDialogPane().getScene().getWindow();
-        //stage.getIcons().add(new Image("file:./src/images/logo.png")); // To add an icon
-
         Platform.runLater(() -> thisDialog.getDialogPane().getScene().getWindow().sizeToScene());
         thisDialog.showAndWait();
     }

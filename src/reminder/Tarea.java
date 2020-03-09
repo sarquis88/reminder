@@ -8,6 +8,11 @@ public class Tarea {
     private String fechaLimite;
     private int id;
 
+    /**
+     * Constructor de clase
+     * @param comentario comentario de la tarea
+     * @param fechaLimite fecha limite de la tarea
+     */
     public Tarea(String comentario, String fechaLimite) {
         this.comentario = comentario;
         this.fechaLimite = fechaLimite;
@@ -16,6 +21,9 @@ public class Tarea {
         idGlobal++;
     }
 
+    /**
+     * Constructor de clase vacio
+     */
     public Tarea() {
 
     }

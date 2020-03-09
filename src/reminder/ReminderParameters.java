@@ -1,5 +1,7 @@
 package reminder;
 
+import javafx.scene.paint.Color;
+
 public interface ReminderParameters {
 
     int sceneHeight = 400;
@@ -12,5 +14,7 @@ public interface ReminderParameters {
     int arcHeight = 15;
     
     String buttonsStyle = "-fx-font-size: 15;";
-    String tareasStyle = "-fx-text-fill: white; -fx-font-size: 15;";
+    String resourcesPath = "./src/reminder/resources/";
+
+    Color rectangleColor = Color.rgb(0, 0, 0, 0.7);
 }

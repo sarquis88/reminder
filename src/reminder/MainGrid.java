@@ -69,6 +69,11 @@ public class MainGrid implements ReminderParameters {
         return this.thisGrid;
     }
 
+    /**
+     * Desactiva o activa un boton
+     * @param button boton a configurar
+     * @param bool true para disable, false para no disable
+     */
     public void setDisable(String button, boolean bool) {
         if(button.equalsIgnoreCase("borrarTarea"))
             this.borrarTarea.setDisable(bool);

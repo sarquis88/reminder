@@ -10,7 +10,6 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class View implements ReminderParameters {
@@ -21,9 +20,6 @@ public class View implements ReminderParameters {
     private MainGrid mainGrid;
     private Scene thisScene;
     private String tareaClickeada;
-
-    private final String backgroundPath = "file:./src/reminder/background.png";
-    private final Color rectangleColor = Color.rgb(0, 0, 0, 0.7);
 
     /**
      * Patron singleton
@@ -43,7 +39,7 @@ public class View implements ReminderParameters {
 
         thisController = controller;
 
-        BackgroundImage myBI= new BackgroundImage(new Image(this.backgroundPath),
+        BackgroundImage myBI= new BackgroundImage(new Image("file:" + resourcesPath + "background"),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                   BackgroundSize.DEFAULT);
         layout.setBackground(new Background(myBI));
@@ -64,9 +60,6 @@ public class View implements ReminderParameters {
         this.mainGrid = new MainGrid(controller);
         this.mainGrid.setLayout(hPadding, vPadding);
         this.mainGrid.setDisable("borrarTodo", thisController.isTareasListEmpty());
-
-        TareasGrid tareasGrid = new TareasGrid();
-        tareasGrid.setLayout(rightRectangle.getX() + hPadding, rightRectangle.getY() + vPadding);
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setLayoutX(rightRectangle.getX() + hPadding);
@@ -114,28 +107,39 @@ public class View implements ReminderParameters {
         scrollPane.setContent(tableView);
 
         layout.getChildren().addAll(leftRectangle, rightRectangle,
-                mainGrid.getGridPane(), tareasGrid.getGridPane(), scrollPane);
+                mainGrid.getGridPane(), scrollPane);
         
         this.thisScene = new Scene(layout, sceneWidth, sceneHeight);
     }
 
     /**
-     * Devuelve ventana de vosta
+     * Devuelve ventana de vista
      * @return objeto Scene
      */
     public Scene getScene() {
         return this.thisScene;
     }
 
+    /**
+     * Retorna comentario de la tarea clickeada en la GUI
+     * @return String del comentario
+     */
     public String getTareaClickeada() {
         return this.tareaClickeada;
     }
 
+    /**
+     * Vuelve a null la tarea clickeada
+     * Vuelve Disable el boton de borrado
+     */
     public void clearTareaClickeada() {
         this.tareaClickeada = null;
         mainGrid.setDisable("borrarTarea", true);
     }
 
+    /**
+     * Actualizacion de vista
+     */
     public void refresh() {
         mainGrid.setDisable("borrarTodo", thisController.isTareasListEmpty());
     }
