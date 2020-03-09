@@ -33,11 +33,14 @@ public class Controller {
      */
     public void actionPerformed(String event) {
         switch (event) {
-            case "nueva-tarea":
+            case "nuevaTarea":
                 this.addTarea();
                 break;
-            case "borrar-tarea":
+            case "borrarTarea":
                 this.deleteTarea();
+                break;
+            case "borrarTodo":
+                this.borrarTodo();
                 break;
             default:
                 break;
@@ -52,23 +55,30 @@ public class Controller {
         String comentario = simpleInputDialog.getResult();
 
         if(comentario != null && !comentario.isBlank()) {
-            tarea.setComentario(comentario);
 
-            simpleInputDialog = new SimpleInputDialog("Ingrese fecha límite");
-            simpleInputDialog.show();
-            String fecha = simpleInputDialog.getResult();
+            if(comentarioExists(comentario)) {
+                MessagesManager.showErrorAlert("Tarea ya existente");
+            }
+            else {
+                tarea.setComentario(comentario);
 
-            if(fecha != null && !fecha.isBlank())
-                tarea.setFechaLimite(fecha);
-            else
-                tarea.setFechaLimite("Sin fecha");
+                simpleInputDialog = new SimpleInputDialog("Ingrese fecha límite");
+                simpleInputDialog.show();
+                String fecha = simpleInputDialog.getResult();
 
-            tarea.setId(Tarea.getIdGlobal());
-            Tarea.increaseIdGlobal();
+                if (fecha != null && !fecha.isBlank())
+                    tarea.setFechaLimite(fecha);
+                else
+                    tarea.setFechaLimite("Sin fecha");
 
-            addTareaToList(tarea);
+                tarea.setId(Tarea.getIdGlobal());
+                Tarea.increaseIdGlobal();
 
-            ReminderBDD.getInstance().insertarTarea(tarea.getId(), tarea.getComentario(), tarea.getFechaLimite());
+                addTareaToList(tarea);
+
+                ReminderBDD.getInstance().insertarTarea(tarea.getId(), tarea.getComentario(), tarea.getFechaLimite());
+                thisView.refresh();
+            }
         }
     }
 
@@ -76,10 +86,14 @@ public class Controller {
         String comentario = thisView.getTareaClickeada();
 
         if(comentario != null) {
-            ReminderBDD.getInstance().deleteTarea(getTareaByComentario(comentario).getId());
-            deleteTareaFromList(comentario);
+            if(MessagesManager.confirmation("Desea borrar la tarea: '" + comentario + "' ?")) {
+                ReminderBDD.getInstance().deleteTarea(getTareaByComentario(comentario).getId());
+                deleteTareaFromList(comentario);
+            }
             thisView.clearTareaClickeada();
         }
+
+        thisView.refresh();
     }
 
     public static void addTareaToList(Tarea tarea) {
@@ -100,5 +114,24 @@ public class Controller {
                 return tarea;
         }
         return null;
+    }
+
+    private boolean comentarioExists(String comentario) {
+        for(Tarea tarea : tareasList) {
+            if(tarea.getComentario().equalsIgnoreCase(comentario))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean isTareasListEmpty() {
+        return tareasList.isEmpty();
+    }
+
+    private void borrarTodo() {
+        if(MessagesManager.confirmation("Desea borrar todas las tareas? Deberá reiniciar la aplicación.")) {
+            ReminderBDD.getInstance().restablecerBDD();
+            Main.exit();
+        }
     }
 }

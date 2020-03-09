@@ -1,7 +1,6 @@
 package reminder;
 
 import javafx.application.Application;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -31,11 +30,14 @@ public class Main extends Application {
         window.setResizable(false);
         window.setMaximized(false);
         window.setTitle("Reminder");
-        //window.getIcons().add(new Image("file:./src/images/logo.png"));
 
         ReminderBDD.getInstance();
 
         window.setScene(View.getInstance(Controller.getInstance()).getScene());
         window.show();
+    }
+
+    public static void exit() {
+        System.exit(0);
     }
 }

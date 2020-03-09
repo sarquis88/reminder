@@ -48,7 +48,7 @@ public class View implements ReminderParameters {
                   BackgroundSize.DEFAULT);
         layout.setBackground(new Background(myBI));
         
-        Rectangle leftRectangle = new Rectangle(hPadding, vPadding, 
+        Rectangle leftRectangle = new Rectangle(hPadding, vPadding,
         		buttonsWidth + hPadding * 2, sceneHeight - vPadding * 2);
         leftRectangle.setArcHeight(arcHeight);
         leftRectangle.setArcWidth(arcWidth);
@@ -61,8 +61,9 @@ public class View implements ReminderParameters {
         rightRectangle.setArcWidth(arcWidth);
         rightRectangle.setFill(this.rectangleColor);
         
-        mainGrid = new MainGrid(controller);
-        mainGrid.setLayout(hPadding, vPadding);
+        this.mainGrid = new MainGrid(controller);
+        this.mainGrid.setLayout(hPadding, vPadding);
+        this.mainGrid.setDisable("borrarTodo", thisController.isTareasListEmpty());
 
         TareasGrid tareasGrid = new TareasGrid();
         tareasGrid.setLayout(rightRectangle.getX() + hPadding, rightRectangle.getY() + vPadding);
@@ -99,7 +100,7 @@ public class View implements ReminderParameters {
                 // localizacion de fila clickeada
                 TablePosition pos = tableView.getSelectionModel().getSelectedCells().get(0);
                 this.tareaClickeada = c1.getCellData(pos.getRow()); // nombre de fila clickeada
-                mainGrid.setDisable(false);
+                mainGrid.setDisable("borrarTarea", false);
             }
             catch (IndexOutOfBoundsException e) {
                 e.getMessage();
@@ -132,6 +133,10 @@ public class View implements ReminderParameters {
 
     public void clearTareaClickeada() {
         this.tareaClickeada = null;
-        mainGrid.setDisable(true);
+        mainGrid.setDisable("borrarTarea", true);
+    }
+
+    public void refresh() {
+        mainGrid.setDisable("borrarTodo", thisController.isTareasListEmpty());
     }
 }
